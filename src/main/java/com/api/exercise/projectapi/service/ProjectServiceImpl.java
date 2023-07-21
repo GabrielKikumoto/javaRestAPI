@@ -27,7 +27,11 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public void deleteById(Long projectId) {
-        repository.deleteById(projectId);
+        if (repository.existsById(projectId)) {
+            repository.deleteById(projectId);
+        } else {
+            throw new EntityNotFoundException("Project not found");
+        }
     }
 
 

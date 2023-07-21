@@ -41,7 +41,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteById(Long userId) {
-        repository.deleteById(userId);
+        if (repository.existsById(userId)) {
+            repository.deleteById(userId);
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
     public boolean isInvalidEmailFormat(String email) {
         return !EmailValidator.getInstance().isValid(email);
